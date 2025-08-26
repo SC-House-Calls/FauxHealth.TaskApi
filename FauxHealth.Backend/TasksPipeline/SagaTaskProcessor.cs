@@ -1,3 +1,4 @@
+using FauxHealth.Backend.Outbox;
 using FauxHealth.Backend.StepsPipeline;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,7 +11,8 @@ public sealed class SagaTaskProcessor<TRequest, TPayload>(
     ILogger<SagaTaskProcessor<TRequest, TPayload>> logger,
     Func<TaskDelegate, TaskPipeline> taskPipelineFactory,
     Func<StepDelegate, StepPipeline> stepPipelineFactory,
-    IFinalPayloadFactory<TRequest, TPayload> payloadFactory)
+    IFinalPayloadFactory<TRequest, TPayload> payloadFactory,
+    IOutboxWriter outboxWriter)
     : ITaskProcessor<TRequest>
     where TRequest : TaskRequest where TPayload : notnull
 {
@@ -41,33 +43,42 @@ public sealed class SagaTaskProcessor<TRequest, TPayload>(
             while (queue.Count > 0)
             {
                 var node = queue.Dequeue();
-
                 var stepId = CorrelationId.NewId();
                 var stepCtx = new StepExecutionContext(ctx, node, stepId);
 
-                StepDelegate terminalStep = async _ =>
+                switch (def.ExecutionKinds[node.StepProcessorType])
                 {
-                    var step = (IStepProcessor)ctx.ServiceProvider.GetRequiredService(node.StepProcessorType);
-                    return await step.ProcessAsync(ctx);
-                };
-
-                var stepPipeline = stepPipelineFactory(terminalStep);
-                var result = await stepPipeline.Invoke(stepCtx);
-
-                if (result.IsError)
-                {
-                    await CompensateAsync(compStack, ctx);
-                    return new TaskResponse.Failure(ctx.CorrelationId, ctx.Request.CreatedBy, result.FirstError);
+                    case StepExecutionKind.Internal:
+                    {
+                        StepDelegate terminalStep = async _ =>
+                        {
+                            var step = (IStepProcessor)ctx.ServiceProvider.GetRequiredService(node.StepProcessorType);
+                            return await step.ProcessAsync(ctx);
+                        };
+                        
+                        var stepPipeline = stepPipelineFactory(terminalStep);
+                        var result = await stepPipeline.Invoke(stepCtx);
+                        
+                        if (result.IsError)
+                        {
+                            await CompensateAsync(compStack, ctx);
+                            return new TaskResponse.Failure(ctx.CorrelationId, ctx.Request.CreatedBy, result.FirstError);
+                        }
+                        
+                        if (node.CompensationStepType is not null)
+                        {
+                            var comp = (ICompensationStep)ctx.ServiceProvider.GetRequiredService(node.CompensationStepType);
+                            compStack.Push(comp);
+                        }
+                    }
+                        break;
+                    case StepExecutionKind.External: await outboxWriter.EnqueueAsync(ctx.CorrelationId, stepId, 
+                            ctx.Request.CreatedBy, node.StepProcessorType, ctx.Request, ct);
+                        break;
                 }
-
+                
                 executed.Add(node.StepProcessorType);
-
-                if (node.CompensationStepType is not null)
-                {
-                    var comp = (ICompensationStep)ctx.ServiceProvider.GetRequiredService(node.CompensationStepType);
-                    compStack.Push(comp);
-                }
-
+                
                 var unblocked = remaining.Values.Where(s => s.Dependencies.IsSubsetOf(executed)).ToList();
                 foreach (var s in unblocked)
                 {
@@ -83,7 +94,6 @@ public sealed class SagaTaskProcessor<TRequest, TPayload>(
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
             await transaction.RollbackAsync(ct);
             throw;
         }

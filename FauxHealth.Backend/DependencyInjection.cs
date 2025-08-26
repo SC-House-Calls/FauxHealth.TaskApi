@@ -1,6 +1,7 @@
 using System.Reflection;
 using System.Threading.Channels;
 using FauxHealth.Backend.Middleware.Logging;
+using FauxHealth.Backend.Outbox;
 using FauxHealth.Backend.StepsPipeline;
 using FauxHealth.Backend.TasksPipeline;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,7 +17,10 @@ public static class DependencyInjection
         services.AddSingleton(_ => Channel.CreateUnbounded<ITaskContext>());
         services.AddSingleton(sp => sp.GetRequiredService<Channel<ITaskContext>>().Reader);
         services.AddSingleton(sp => sp.GetRequiredService<Channel<ITaskContext>>().Writer);
+        services.AddSingleton<ITaskRequestSerializationRegistry, TaskRequestSerializationRegistry>();
+        services.AddScoped<IOutboxWriter, EfOutboxWriter>();
         services.AddHostedService<JobSystemService>();
+        services.AddHostedService<OutboxProcessorService>();
 
         services.AddTaskEngineFromAssemblies(assemblies);
 
