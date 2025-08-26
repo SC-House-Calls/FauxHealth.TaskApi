@@ -1,4 +1,5 @@
 using FauxHealth.Backend.StepsPipeline;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -32,43 +33,60 @@ public sealed class SagaTaskProcessor<TRequest, TPayload>(
 
         var compStack = new Stack<ICompensationStep>();
 
-        while (queue.Count > 0)
+        var dbContext = ctx.ServiceProvider.GetRequiredService<DbContext>();
+        await using var transaction = await dbContext.Database.BeginTransactionAsync(ct);
+
+        try
         {
-            var node = queue.Dequeue();
-
-            var stepId = CorrelationId.NewId();
-            var stepCtx = new StepExecutionContext(ctx, node, stepId);
-
-            StepDelegate terminalStep = async _ =>
+            while (queue.Count > 0)
             {
-                var step = (IStepProcessor)ctx.ServiceProvider.GetRequiredService(node.StepProcessorType);
-                return await step.ProcessAsync(ctx);
-            };
+                var node = queue.Dequeue();
 
-            var stepPipeline = stepPipelineFactory(terminalStep);
-            var result = await stepPipeline.Invoke(stepCtx);
+                var stepId = CorrelationId.NewId();
+                var stepCtx = new StepExecutionContext(ctx, node, stepId);
 
-            if (result.IsError)
-            {
-                await CompensateAsync(compStack, ctx);
-                return new TaskResponse.Failure(ctx.CorrelationId, ctx.Request.CreatedBy, result.FirstError);
+                StepDelegate terminalStep = async _ =>
+                {
+                    var step = (IStepProcessor)ctx.ServiceProvider.GetRequiredService(node.StepProcessorType);
+                    return await step.ProcessAsync(ctx);
+                };
+
+                var stepPipeline = stepPipelineFactory(terminalStep);
+                var result = await stepPipeline.Invoke(stepCtx);
+
+                if (result.IsError)
+                {
+                    await CompensateAsync(compStack, ctx);
+                    return new TaskResponse.Failure(ctx.CorrelationId, ctx.Request.CreatedBy, result.FirstError);
+                }
+
+                executed.Add(node.StepProcessorType);
+
+                if (node.CompensationStepType is not null)
+                {
+                    var comp = (ICompensationStep)ctx.ServiceProvider.GetRequiredService(node.CompensationStepType);
+                    compStack.Push(comp);
+                }
+
+                var unblocked = remaining.Values.Where(s => s.Dependencies.IsSubsetOf(executed)).ToList();
+                foreach (var s in unblocked)
+                {
+                    queue.Enqueue(s);
+                    remaining.Remove(s.StepProcessorType);
+                }
             }
 
-            executed.Add(node.StepProcessorType);
-
-            if (node.CompensationStepType is not null)
-            {
-                var comp = (ICompensationStep)ctx.ServiceProvider.GetRequiredService(node.CompensationStepType);
-                compStack.Push(comp);
-            }
-
-            var unblocked = remaining.Values.Where(s => s.Dependencies.IsSubsetOf(executed)).ToList();
-            foreach (var s in unblocked) { queue.Enqueue(s); remaining.Remove(s.StepProcessorType); }
+            var payload = await payloadFactory.CreateAsync(ctx, ct);
+            logger.LogInformation("Task {TaskId} completed successfully", ctx.CorrelationId);
+            await transaction.CommitAsync(ct);
+            return new TaskResponse.Success<TPayload>(ctx.CorrelationId, ctx.Request.CreatedBy, payload);
         }
-
-        var payload = await payloadFactory.CreateAsync(ctx, ct);
-        logger.LogInformation("Task {TaskId} completed successfully", ctx.CorrelationId);
-        return new TaskResponse.Success<TPayload>(ctx.CorrelationId, ctx.Request.CreatedBy, payload);
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            await transaction.RollbackAsync(ct);
+            throw;
+        }
     }
 
     private static async Task CompensateAsync(Stack<ICompensationStep> stack, ITaskContext context)
