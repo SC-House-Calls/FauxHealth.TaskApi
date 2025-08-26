@@ -14,7 +14,11 @@ public sealed class TaskPipeline
     public Task<TaskResponse> Invoke(ITaskContext ctx)
     {
         var next = _terminal;
-        foreach (var m in _components) { var local = next; next = c => m.InvokeAsync(c, local); }
+        foreach (var m in _components)
+        {
+            var local = next; 
+            next = c => m.InvokeAsync(c, local);
+        }
         return next(ctx);
     }
 }

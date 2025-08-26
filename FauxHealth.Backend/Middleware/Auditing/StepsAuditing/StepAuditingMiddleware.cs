@@ -1,10 +1,10 @@
 using ErrorOr;
+using FauxHealth.Backend.Middleware.Auditing.FieldChangesAuditing;
 using FauxHealth.Backend.Middleware.Logging;
 using FauxHealth.Backend.StepsPipeline;
-using Microsoft.Extensions.Logging;
-using static FauxHealth.Backend.Middleware.Auditing.StepAuditSinkRecord;
+using static FauxHealth.Backend.Middleware.Auditing.StepsAuditing.StepAuditSinkRecord;
 
-namespace FauxHealth.Backend.Middleware.Auditing;
+namespace FauxHealth.Backend.Middleware.Auditing.StepsAuditing;
 
 public sealed class StepAuditingMiddleware(
     IAuditSink sink,
@@ -31,9 +31,10 @@ public sealed class StepAuditingMiddleware(
         var updates = collectorAccessor.Current?.Drain() ?? [];
         if (updates.Count > 0)
         {
-            await dispatcher.DispatchAsync(updates, corr.TaskId, corr.StepId, ctx.TaskContext.CancellationToken);
-            foreach (var update in updates.OfType<FieldChangeAudit>())
-                eventBus.Publish(new TaskEvent(TaskEventType.FieldChangeAudit, ctx.TaskContext.CorrelationId, update.ChangedAt, update));
+            var fieldChanges = await dispatcher.DispatchAsync(updates, corr.TaskId, corr.StepId, ctx.TaskContext.CancellationToken);
+            foreach (var fieldChange in fieldChanges.SelectMany(x => x))
+                eventBus.Publish(new TaskEvent(TaskEventType.FieldChangeAudit, ctx.TaskContext.CorrelationId,
+                    fieldChange.ChangedAt, fieldChange));
         }
         
         var completedAt = DateTimeOffset.UtcNow;

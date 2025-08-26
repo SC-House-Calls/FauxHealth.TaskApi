@@ -1,5 +1,8 @@
+using NetEscapades.EnumGenerators;
+
 namespace FauxHealth.Backend.Middleware.Logging;
 
+[EnumExtensions]
 public enum TaskEventType : byte
 {
     StatusChanged = 0,

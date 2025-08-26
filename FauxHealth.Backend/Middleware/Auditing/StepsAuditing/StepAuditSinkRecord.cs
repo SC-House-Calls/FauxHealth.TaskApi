@@ -1,6 +1,6 @@
 using ErrorOr;
 
-namespace FauxHealth.Backend.Middleware.Auditing;
+namespace FauxHealth.Backend.Middleware.Auditing.StepsAuditing;
 
 public abstract record StepAuditSinkRecord : AuditSinkRecord
 {

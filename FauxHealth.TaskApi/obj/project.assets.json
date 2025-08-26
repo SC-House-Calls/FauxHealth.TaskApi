@@ -444,6 +444,19 @@
           }
         }
       },
+      "NetEscapades.EnumGenerators/1.0.0-beta14": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/NetEscapades.EnumGenerators.Attributes.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/NetEscapades.EnumGenerators.Attributes.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Scrutor/6.1.0": {
         "type": "package",
         "dependencies": {
@@ -461,6 +474,19 @@
           }
         }
       },
+      "SpanExtensions.Net/1.5.1": {
+        "type": "package",
+        "compile": {
+          "lib/net9.0/SpanExtensions.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/SpanExtensions.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "FauxHealth.Backend/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v9.0",
@@ -473,6 +499,7 @@
           "Microsoft.Extensions.Hosting.Abstractions": "9.0.8",
           "Microsoft.Extensions.Logging": "9.0.8",
           "Microsoft.Extensions.Logging.Abstractions": "9.0.8",
+          "NetEscapades.EnumGenerators": "1.0.0-beta14",
           "Scrutor": "6.1.0"
         },
         "compile": {
@@ -1132,6 +1159,25 @@
         "microsoft.openapi.nuspec"
       ]
     },
+    "NetEscapades.EnumGenerators/1.0.0-beta14": {
+      "sha512": "JIYagrK2wwDIntQXcy+txx6kNLYpfOEd82DTCxCeka039pjzfx3UPe49iCTVIXPgzQMvZnuuqWlnXfDyDZF6Pg==",
+      "type": "package",
+      "path": "netescapades.enumgenerators/1.0.0-beta14",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "analyzers/dotnet/cs/NetEscapades.EnumGenerators.Attributes.dll",
+        "analyzers/dotnet/cs/NetEscapades.EnumGenerators.dll",
+        "icon.png",
+        "lib/net451/NetEscapades.EnumGenerators.Attributes.dll",
+        "lib/net451/NetEscapades.EnumGenerators.Attributes.xml",
+        "lib/netstandard2.0/NetEscapades.EnumGenerators.Attributes.dll",
+        "lib/netstandard2.0/NetEscapades.EnumGenerators.Attributes.xml",
+        "netescapades.enumgenerators.1.0.0-beta14.nupkg.sha512",
+        "netescapades.enumgenerators.nuspec"
+      ]
+    },
     "Scrutor/6.1.0": {
       "sha512": "m4+0RdgnX+jeiaqteq9x5SwEtuCjWG0KTw1jBjCzn7V8mCanXKoeF8+59E0fcoRbAjdEq6YqHFCmxZ49Kvqp3g==",
       "type": "package",
@@ -1153,6 +1199,32 @@
         "scrutor.nuspec"
       ]
     },
+    "SpanExtensions.Net/1.5.1": {
+      "sha512": "XCOO4kHIZcgLjDTU6GC83cObbtbO0g9ologcpd6zOCjx/ZeS5tq1OLYBUhw/uXPkn+yyER0E03zBza9y5Dz31A==",
+      "type": "package",
+      "path": "spanextensions.net/1.5.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE",
+        "README.md",
+        "icon.png",
+        "lib/net5.0/SpanExtensions.dll",
+        "lib/net5.0/SpanExtensions.xml",
+        "lib/net6.0/SpanExtensions.dll",
+        "lib/net6.0/SpanExtensions.xml",
+        "lib/net7.0/SpanExtensions.dll",
+        "lib/net7.0/SpanExtensions.xml",
+        "lib/net8.0/SpanExtensions.dll",
+        "lib/net8.0/SpanExtensions.xml",
+        "lib/net9.0/SpanExtensions.dll",
+        "lib/net9.0/SpanExtensions.xml",
+        "lib/netstandard2.1/SpanExtensions.dll",
+        "lib/netstandard2.1/SpanExtensions.xml",
+        "spanextensions.net.1.5.1.nupkg.sha512",
+        "spanextensions.net.nuspec"
+      ]
+    },
     "FauxHealth.Backend/1.0.0": {
       "type": "project",
       "path": "../FauxHealth.Backend/FauxHealth.Backend.csproj",
@@ -1163,7 +1235,9 @@
     "net9.0": [
       "FastEndpoints >= 7.0.1",
       "FauxHealth.Backend >= 1.0.0",
-      "Microsoft.AspNetCore.OpenApi >= 9.0.6"
+      "Microsoft.AspNetCore.OpenApi >= 9.0.6",
+      "NetEscapades.EnumGenerators >= 1.0.0-beta14",
+      "SpanExtensions.Net >= 1.5.1"
     ]
   },
   "packageFolders": {
@@ -1221,6 +1295,14 @@
           "Microsoft.AspNetCore.OpenApi": {
             "target": "Package",
             "version": "[9.0.6, )"
+          },
+          "NetEscapades.EnumGenerators": {
+            "target": "Package",
+            "version": "[1.0.0-beta14, )"
+          },
+          "SpanExtensions.Net": {
+            "target": "Package",
+            "version": "[1.5.1, )"
           }
         },
         "imports": [

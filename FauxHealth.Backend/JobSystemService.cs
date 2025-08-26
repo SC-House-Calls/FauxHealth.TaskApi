@@ -26,8 +26,8 @@ public class JobSystemService : BackgroundService
                     var processorType = typeof(ITaskProcessor<>).MakeGenericType(requestType);
                     var processor = context.ServiceProvider.GetRequiredService(processorType);
 
-                    dynamic dynProcessor = processor;
-                    TaskResponse response = await dynProcessor.ProcessAsync((dynamic)context, stoppingToken);
+                    if (processor is not ITaskProcessor dynProcessor) throw new InvalidOperationException();
+                    var response = await dynProcessor.ProcessAsync(context, stoppingToken);
                     // TODO: persist status/result, notify, etc.
                 }
             }, stoppingToken);

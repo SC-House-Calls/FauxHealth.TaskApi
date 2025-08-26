@@ -1,3 +1,5 @@
+using FauxHealth.Backend.Builders;
+
 namespace FauxHealth.Backend.TasksPipeline;
 
 public interface ITaskConfiguration

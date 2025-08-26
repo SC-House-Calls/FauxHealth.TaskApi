@@ -77,6 +77,10 @@
               "target": "Package",
               "version": "[9.0.8, )"
             },
+            "NetEscapades.EnumGenerators": {
+              "target": "Package",
+              "version": "[1.0.0-beta14, )"
+            },
             "Scrutor": {
               "target": "Package",
               "version": "[6.1.0, )"

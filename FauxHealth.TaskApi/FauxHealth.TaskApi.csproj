@@ -9,6 +9,8 @@
     <ItemGroup>
         <PackageReference Include="FastEndpoints" Version="7.0.1" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.6"/>
+        <PackageReference Include="NetEscapades.EnumGenerators" Version="1.0.0-beta14" />
+        <PackageReference Include="SpanExtensions.Net" Version="1.5.1" />
     </ItemGroup>
 
     <ItemGroup>

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "xmvoLEBzPzw=",
+  "dgSpecHash": "u0yoLDDiFQo=",
   "success": true,
   "projectFilePath": "/Users/esseabasietim/RiderProjects/FauxHealth.TaskApi/FauxHealth.TaskApi/FauxHealth.TaskApi.csproj",
   "expectedPackageFiles": [
@@ -30,7 +30,9 @@
     "/Users/esseabasietim/.nuget/packages/microsoft.extensions.options/9.0.8/microsoft.extensions.options.9.0.8.nupkg.sha512",
     "/Users/esseabasietim/.nuget/packages/microsoft.extensions.primitives/9.0.8/microsoft.extensions.primitives.9.0.8.nupkg.sha512",
     "/Users/esseabasietim/.nuget/packages/microsoft.openapi/1.6.17/microsoft.openapi.1.6.17.nupkg.sha512",
-    "/Users/esseabasietim/.nuget/packages/scrutor/6.1.0/scrutor.6.1.0.nupkg.sha512"
+    "/Users/esseabasietim/.nuget/packages/netescapades.enumgenerators/1.0.0-beta14/netescapades.enumgenerators.1.0.0-beta14.nupkg.sha512",
+    "/Users/esseabasietim/.nuget/packages/scrutor/6.1.0/scrutor.6.1.0.nupkg.sha512",
+    "/Users/esseabasietim/.nuget/packages/spanextensions.net/1.5.1/spanextensions.net.1.5.1.nupkg.sha512"
   ],
   "logs": []
 }

@@ -1,4 +1,4 @@
-namespace FauxHealth.Backend.Middleware.Auditing;
+namespace FauxHealth.Backend.Middleware.Auditing.TasksAuditing;
 
 public abstract record TaskAuditSinkRecord : AuditSinkRecord
 {

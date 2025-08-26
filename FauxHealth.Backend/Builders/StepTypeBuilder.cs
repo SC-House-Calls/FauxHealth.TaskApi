@@ -1,6 +1,6 @@
 using FauxHealth.Backend.StepsPipeline;
 
-namespace FauxHealth.Backend;
+namespace FauxHealth.Backend.Builders;
 
 public sealed class StepTypeBuilder
 {

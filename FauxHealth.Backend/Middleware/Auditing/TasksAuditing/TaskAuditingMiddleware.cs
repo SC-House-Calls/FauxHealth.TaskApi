@@ -2,9 +2,9 @@ using FauxHealth.Backend.Middleware.Logging;
 using FauxHealth.Backend.StepsPipeline;
 using FauxHealth.Backend.TasksPipeline;
 using Microsoft.Extensions.Logging;
-using static FauxHealth.Backend.Middleware.Auditing.TaskAuditSinkRecord;
+using static FauxHealth.Backend.Middleware.Auditing.TasksAuditing.TaskAuditSinkRecord;
 
-namespace FauxHealth.Backend.Middleware.Auditing;
+namespace FauxHealth.Backend.Middleware.Auditing.TasksAuditing;
 
 public sealed class TaskAuditingMiddleware(
     IAuditSink sink, 

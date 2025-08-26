@@ -349,6 +349,19 @@
           "buildTransitive/net8.0/_._": {}
         }
       },
+      "NetEscapades.EnumGenerators/1.0.0-beta14": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/NetEscapades.EnumGenerators.Attributes.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/NetEscapades.EnumGenerators.Attributes.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Scrutor/6.1.0": {
         "type": "package",
         "dependencies": {
@@ -923,6 +936,25 @@
         "useSharedDesignerContext.txt"
       ]
     },
+    "NetEscapades.EnumGenerators/1.0.0-beta14": {
+      "sha512": "JIYagrK2wwDIntQXcy+txx6kNLYpfOEd82DTCxCeka039pjzfx3UPe49iCTVIXPgzQMvZnuuqWlnXfDyDZF6Pg==",
+      "type": "package",
+      "path": "netescapades.enumgenerators/1.0.0-beta14",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "analyzers/dotnet/cs/NetEscapades.EnumGenerators.Attributes.dll",
+        "analyzers/dotnet/cs/NetEscapades.EnumGenerators.dll",
+        "icon.png",
+        "lib/net451/NetEscapades.EnumGenerators.Attributes.dll",
+        "lib/net451/NetEscapades.EnumGenerators.Attributes.xml",
+        "lib/netstandard2.0/NetEscapades.EnumGenerators.Attributes.dll",
+        "lib/netstandard2.0/NetEscapades.EnumGenerators.Attributes.xml",
+        "netescapades.enumgenerators.1.0.0-beta14.nupkg.sha512",
+        "netescapades.enumgenerators.nuspec"
+      ]
+    },
     "Scrutor/6.1.0": {
       "sha512": "m4+0RdgnX+jeiaqteq9x5SwEtuCjWG0KTw1jBjCzn7V8mCanXKoeF8+59E0fcoRbAjdEq6YqHFCmxZ49Kvqp3g==",
       "type": "package",
@@ -955,6 +987,7 @@
       "Microsoft.Extensions.Hosting.Abstractions >= 9.0.8",
       "Microsoft.Extensions.Logging >= 9.0.8",
       "Microsoft.Extensions.Logging.Abstractions >= 9.0.8",
+      "NetEscapades.EnumGenerators >= 1.0.0-beta14",
       "Scrutor >= 6.1.0"
     ]
   },
@@ -1033,6 +1066,10 @@
           "Microsoft.Extensions.Logging.Abstractions": {
             "target": "Package",
             "version": "[9.0.8, )"
+          },
+          "NetEscapades.EnumGenerators": {
+            "target": "Package",
+            "version": "[1.0.0-beta14, )"
           },
           "Scrutor": {
             "target": "Package",

@@ -1,7 +1,11 @@
 using System.Collections.Frozen;
 using System.Reflection;
+using FauxHealth.Backend.Builders;
 using FauxHealth.Backend.Middleware;
 using FauxHealth.Backend.Middleware.Auditing;
+using FauxHealth.Backend.Middleware.Auditing.FieldChangesAuditing;
+using FauxHealth.Backend.Middleware.Auditing.StepsAuditing;
+using FauxHealth.Backend.Middleware.Auditing.TasksAuditing;
 using FauxHealth.Backend.Middleware.Logging;
 using FauxHealth.Backend.StepsPipeline;
 using FauxHealth.Backend.TasksPipeline;

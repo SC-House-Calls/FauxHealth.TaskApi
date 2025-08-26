@@ -2,7 +2,7 @@ using System.Collections.Frozen;
 using FauxHealth.Backend.StepsPipeline;
 using FauxHealth.Backend.TasksPipeline;
 
-namespace FauxHealth.Backend;
+namespace FauxHealth.Backend.Builders;
 
 public sealed class TaskTypeBuilder<TRequest> where TRequest : TaskRequest
 {

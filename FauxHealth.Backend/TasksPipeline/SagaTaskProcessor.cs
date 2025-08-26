@@ -9,7 +9,6 @@ public sealed class SagaTaskProcessor<TRequest, TPayload>(
     ILogger<SagaTaskProcessor<TRequest, TPayload>> logger,
     Func<TaskDelegate, TaskPipeline> taskPipelineFactory,
     Func<StepDelegate, StepPipeline> stepPipelineFactory,
-    IServiceProvider sp,
     IFinalPayloadFactory<TRequest, TPayload> payloadFactory)
     : ITaskProcessor<TRequest>
     where TRequest : TaskRequest where TPayload : notnull
@@ -79,5 +78,10 @@ public sealed class SagaTaskProcessor<TRequest, TPayload>(
             try { await stack.Pop().CompensateAsync(context); }
             catch { /* swallow or log; compensations are best-effort */ }
         }
+    }
+
+    async Task<TaskResponse> ITaskProcessor.ProcessAsync(ITaskContext context, CancellationToken cancellationToken)
+    {
+        return await ProcessAsync((TaskContext<TRequest>)context, cancellationToken);   
     }
 }

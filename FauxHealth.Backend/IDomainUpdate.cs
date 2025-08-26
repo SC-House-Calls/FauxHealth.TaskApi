@@ -1,5 +1,3 @@
-using ErrorOr;
-
 namespace FauxHealth.Backend;
 
 public interface IDomainUpdate;
