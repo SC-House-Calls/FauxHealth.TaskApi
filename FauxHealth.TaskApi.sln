@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FauxHealth.TaskApi", "FauxHealth.TaskApi\FauxHealth.TaskApi.csproj", "{627633DA-3F6C-45BE-A9BB-64E3BCD9F8EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FauxHealth.Backend", "FauxHealth.Backend\FauxHealth.Backend.csproj", "{3CDBE511-2F70-44C4-8141-2A5795B851D2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{627633DA-3F6C-45BE-A9BB-64E3BCD9F8EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{627633DA-3F6C-45BE-A9BB-64E3BCD9F8EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{627633DA-3F6C-45BE-A9BB-64E3BCD9F8EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{627633DA-3F6C-45BE-A9BB-64E3BCD9F8EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CDBE511-2F70-44C4-8141-2A5795B851D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CDBE511-2F70-44C4-8141-2A5795B851D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CDBE511-2F70-44C4-8141-2A5795B851D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CDBE511-2F70-44C4-8141-2A5795B851D2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

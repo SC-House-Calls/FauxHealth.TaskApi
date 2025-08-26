@@ -1,0 +1,6 @@
+@FauxHealth.TaskApi_HostAddress = http://localhost:5030
+
+GET {{FauxHealth.TaskApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
